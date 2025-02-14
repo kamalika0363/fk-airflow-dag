@@ -9,7 +9,7 @@ default_args = {
     'owner'                 : 'Kamalika',
     'description'           : 'Use of the GitSync',
     'depend_on_past'        : False,
-    'start_date'            : datetime(2025, 2, 15),
+    'start_date'            : datetime(2025, 2, 2),
     'email_on_failure'      : False,
     'email_on_retry'        : False,
     'retries'               : 1,
