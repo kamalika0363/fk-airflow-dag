@@ -1,8 +1,7 @@
-from datetime import datetime
-
 from airflow import DAG
-from airflow.decorators import task
-from airflow.operators.bash import BashOperator
+from datetime import datetime, timedelta
+from airflow.operators.bash_operator import BashOperator
+from airflow.operators.docker_operator import DockerOperator
 
 
 default_args = {
@@ -15,14 +14,12 @@ default_args = {
     'retries'               : 1,
     'retry_delay'           : timedelta(minutes=5)
 }
-# A DAG represents a workflow, a collection of tasks
-with DAG(dag_id="demo_dag", start_date=datetime(2025, 1, 1), schedule="0 0 * * *") as dag:
- # Tasks are represented as operators
- hello = BashOperator(task_id="hello", bash_command="echo hello")
 
- @task()
- def airflow():
-  print("airflow")
+with DAG('docker_dag_sample', default_args=default_args, schedule_interval="5 10 * * *", catchup=False) as dag:
+    t1 = BashOperator(
+        task_id='from_git_sync',
+        bash_command='echo "hello world"'
+    )
 
- # Set dependencies between tasks
- hello >> airflow()
+t1
+
